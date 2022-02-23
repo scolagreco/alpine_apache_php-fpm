@@ -11,10 +11,6 @@ ENV WORKDIR /var/www
 RUN set -x \
     && mkdir -p "$WORKDIR" \
     && mv /root/preloadable_libiconv.so /usr/lib/preloadable_libiconv.so \
-#    && addgroup -g 48 -S apache \
-#    && adduser -u 48 -D -S -G apache apache \
-#    && addgroup -g 101 -S nginx \
-#    && adduser -u 100 -D -S -G nginx nginx \
     && apk add --update --no-cache \
                 ca-certificates \
                 curl \
@@ -57,7 +53,6 @@ RUN set -x \
     && apk add --update --no-cache \
                 php7-intl \
                 php7-pdo_mysql \
-                #php7-gmagick \
                 php7-pspell \
                 php7-fileinfo \
                 php7-opcache \
@@ -104,7 +99,15 @@ RUN set -x \
     && ln -sf /dev/stderr /var/log/php7/www.error.log \
     && ln -sf /dev/stdout /var/log/php7/www.access.log \
     && ln -sf /dev/stderr /usr/local/apache2/logs/error.log \
-    && ln -sf /dev/stdout /usr/local/apache2/logs/access.log
+    && ln -sf /dev/stdout /usr/local/apache2/logs/access.log \
+    && apk add --update --no-cache ssmtp \
+    && echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
+    && echo "root=postmaster" >> /etc/ssmtp/ssmtp.conf \
+    && echo "mailhub=smtp.cnr.it:25" >> /etc/ssmtp/ssmtp.conf \
+    && echo "sendmail_path=sendmail -i -t" >> /etc/php7/conf.d/php-sendmail.ini \
+    && echo "localhost localhost.localdomain" >> /etc/hosts \
+    && echo "nginx:webmaster@localhost.localdomain" >> /etc/ssmtp/revaliases \
+    && echo "root:webmaster@localhost.localdomain" >> /etc/ssmtp/revaliases
 
 WORKDIR /var/www
 
