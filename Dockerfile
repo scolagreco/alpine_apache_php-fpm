@@ -103,7 +103,7 @@ RUN set -x \
     && apk add --update --no-cache ssmtp \
     && echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
     && echo "root=postmaster" >> /etc/ssmtp/ssmtp.conf \
-    && echo "mailhub=smtp.cnr.it:25" >> /etc/ssmtp/ssmtp.conf \
+    && echo "mailhub=smtp.example.com:25" >> /etc/ssmtp/ssmtp.conf \
     && echo "sendmail_path=sendmail -i -t" >> /etc/php7/conf.d/php-sendmail.ini \
     && echo "localhost localhost.localdomain" >> /etc/hosts \
     && echo "nginx:webmaster@localhost.localdomain" >> /etc/ssmtp/revaliases \
