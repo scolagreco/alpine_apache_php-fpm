@@ -1,4 +1,4 @@
-FROM scolagreco/docker-apache24:2.4.52
+FROM scolagreco/docker-apache24:2.4.54
 
 COPY ./apache/conf /usr/local/apache2/conf/
 
@@ -33,78 +33,78 @@ RUN set -x \
                 gnu-libiconv \
                 gnu-libiconv-dev \
     && apk add --update --no-cache \
-                php7 \
-                php7-fpm \
-                php7-mysqli \
-                php7-json \
-                php7-openssl \
-                php7-curl \
-                php7-zlib \
-                php7-xml \
-                php7-phar \
-                php7-intl \
-                php7-dom \
-                php7-xmlreader \
-                php7-ctype \
-                php7-mbstring \
-                php7-gd \
-                php7-iconv \
-                php7-posix \
+                php8 \
+                php8-fpm \
+                php8-mysqli \
+                php8-json \
+                php8-openssl \
+                php8-curl \
+                php8-zlib \
+                php8-xml \
+                php8-phar \
+                php8-intl \
+                php8-dom \
+                php8-xmlreader \
+                php8-ctype \
+                php8-mbstring \
+                php8-gd \
+                php8-iconv \
+                php8-posix \
     && apk add --update --no-cache \
-                php7-intl \
-                php7-pdo_mysql \
-                php7-pspell \
-                php7-fileinfo \
-                php7-opcache \
-                php7-ldap \
-                php7-pdo_pgsql \
-                php7-pgsql \
-                php7-pdo_odbc \
-                php7-zip \
-                php7-mcrypt \
-                php7-soap \
-                php7-apcu \
-                php7-session \
-                php7-simplexml \
-                php7-pecl-ssh2 \
+                php8-intl \
+                php8-pdo_mysql \
+                php8-pspell \
+                php8-fileinfo \
+                php8-opcache \
+                php8-ldap \
+                php8-pdo_pgsql \
+                php8-pgsql \
+                php8-pdo_odbc \
+                php8-zip \
+                php8-pecl-mcrypt \
+                php8-soap \
+                php8-apcu \
+                php8-session \
+                php8-simplexml \
+                php8-pecl-ssh2 \
     && apk add --update --no-cache \
-                php7-tokenizer \
-                php7-ftp \
-                php7-gmp \
-                php7-pdo_sqlite \
-                php7-sqlite3 \
-                php7-xmlwriter \
-                php7-xsl \
-                php7-pecl-imagick \
-                php7-pecl-imagick-dev \
+                php8-tokenizer \
+                php8-ftp \
+                php8-gmp \
+                php8-pdo_sqlite \
+                php8-sqlite3 \
+                php8-xmlwriter \
+                php8-xsl \
+                php8-pecl-imagick \
+                php8-pecl-imagick-dev \
     && apk add --update --no-cache \
-                php7-bz2 \
-                php7-pecl-memcached \
-                php7-redis \
-                php7-imap \
-                php7-exif \
-                php7-pcntl \
+                php8-bz2 \
+                php8-pecl-memcached \
+                php8-redis \
+                php8-imap \
+                php8-exif \
+                php8-pcntl \
     && apk add --update --no-cache \
                 supervisor \
                 file \
                 make \
     && mkdir -p /var/www \
     && mv /root/supervisord.conf /etc/supervisord.conf \
-    && mv /root/php.ini /etc/php7/php.ini \
-    && mv /root/php-fpm.conf /etc/php7/php-fpm.conf \
-    && mv /root/www.conf /etc/php7/php-fpm.d/www.conf \
+    && mv /root/php.ini /etc/php8/php.ini \
+    && mv /root/php-fpm.conf /etc/php8/php-fpm.conf \
+    && mv /root/www.conf /etc/php8/php-fpm.d/www.conf \
     && rm -Rf /var/www/* \
     && mv /root/info.php /var/www/index.php \
-    && ln -sf /dev/stderr /var/log/php7/error.log \
-    && ln -sf /dev/stderr /var/log/php7/www.error.log \
-    && ln -sf /dev/stdout /var/log/php7/www.access.log \
+    && ln -sf /dev/stderr /var/log/php8/error.log \
+    && ln -sf /dev/stderr /var/log/php8/www.error.log \
+    && ln -sf /dev/stdout /var/log/php8/www.access.log \
     && ln -sf /dev/stderr /usr/local/apache2/logs/error.log \
     && ln -sf /dev/stdout /usr/local/apache2/logs/access.log \
     && apk add --update --no-cache ssmtp \
     && echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
     && echo "root=postmaster" >> /etc/ssmtp/ssmtp.conf \
     && echo "mailhub=smtp.example.com:25" >> /etc/ssmtp/ssmtp.conf \
-    && echo "sendmail_path=sendmail -i -t" >> /etc/php7/conf.d/php-sendmail.ini \
+    && echo "sendmail_path=sendmail -i -t" >> /etc/php8/conf.d/php-sendmail.ini \
     && echo "localhost localhost.localdomain" >> /etc/hosts \
     && echo "nginx:webmaster@localhost.localdomain" >> /etc/ssmtp/revaliases \
     && echo "root:webmaster@localhost.localdomain" >> /etc/ssmtp/revaliases
@@ -118,15 +118,18 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 # Metadata params
 ARG BUILD_DATE
 ARG VERSION
-ARG VCS_URL
+ARG VCS_URL="https://github.com/scolagreco/alpine_apache_php-fpm.git"
 ARG VCS_REF
+ARG AUTHORS="Stefano Colagreco <stefano@colagreco.it>"
+ARG VENDOR
 
 # Metadata
-LABEL maintainer="Stefano Colagreco <stefano@colagreco.it>" \
-        org.label-schema.name="Apache 2.4 e PHP 7.4 (php-fpm7)" \
-        org.label-schema.build-date=$BUILD_DATE \
-        org.label-schema.version=$VERSION \
-        org.label-schema.vcs-url=$VCS_URL \
-        org.label-schema.vcs-ref=$VCS_REF \
-        org.label-schema.description="Docker Image di Alpine con installato Apache 2.4 e PHP 7.4 (php-fpm7)"
+LABEL org.opencontainers.image.authors=$AUTHORS \
+      org.opencontainers.image.vendor=$VENDOR \
+      org.opencontainers.image.title="alpine_apache_php-fpm" \
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.version=$VERSION \
+      org.opencontainers.image.source=$VCS_URL \
+      org.opencontainers.image.revision=$VCS_REF \
+      org.opencontainers.image.description="Docker Image di Alpine con installato Apache 2.4 e PHP 8.0 (php8-fpm)"
 

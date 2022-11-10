@@ -5,9 +5,11 @@ Docker Image Apache 2.4 e PHP-FPM da usare come base per Hosting
 Repository con il dockerfile per una immagine docker con Apache e PHP-FPM da usare per Hosting.
 Utilizza supervisord per farli partire.
 Derivata da:
-* **scolagreco/docker-apache24:2.4.52**
+* **scolagreco/docker-apache24:2.4.54**
 
-- [`2.4.52`](https://github.com/scolagreco/docker-apache24/releases/tag/2.4.52)
+- [`2.4.54`](https://github.com/scolagreco/docker-apache24/releases/tag/2.4.54)
+
+Questa versione ha PHP 8.0
 
 ## Utilizzo
 
