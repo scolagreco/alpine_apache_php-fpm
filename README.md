@@ -9,7 +9,7 @@ Derivata da:
 
 - [`2.4.54`](https://github.com/scolagreco/docker-apache24/releases/tag/2.4.54)
 
-Questa versione ha PHP 8.0
+Questa versione ha PHP 8.1
 
 ## Utilizzo
 
